@@ -1,0 +1,69 @@
+$width: 400px;
+$height: 400px;
+$boxes: 11;
+$animation_container: true;
+$animation_box: true;
+$animation_duration: 5s;
+
+body{
+    position: relative;
+    height: 100vh;
+    background-color: #00343b;
+}
+
+.container{
+    position: absolute;
+    width: $width;
+    height: $height;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    @if $animation_container ==true{
+        animation: $animation_duration rotate-container infinite ease-in-out alternate;
+    }
+}
+
+.box {
+    position: absolute;
+    border: 1px solid #b8ffff;
+    width: $width;
+    height: $height;
+    will-change: transform;
+    box-shadow: 0 0 10px #b8ffff;
+
+    @if $animation_box == true {
+        animation: $animation_duration rotate-square ease-in infinite alternate;
+    }
+    @for $i from 1 through $boxes {
+        &:nth-child(#{$i}){
+            $current: $i * (90 / $boxes) * 1deg;
+            --current: #{$current};
+            transform: rotate(var(--current));
+
+            @keyframes rotate-square {
+                0%{
+                    transform: none;
+                }
+
+                20%{
+                    transform: none;
+                }
+
+                70%{
+                    transform: rotate(var(--current));
+                }
+            }
+        }
+    }
+}
+
+@keyframes rotate-container{
+    0%{
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    100%{
+        transform: translate(-50%, -50%) rotate(720deg);
+    }
+}
+// https://www.youtube.com/shorts/Kg28OOQtYmc
